@@ -1,0 +1,262 @@
+{% load static%}
+
+
+
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+
+    <!--- basic page needs
+    ================================================== -->
+    <meta charset="utf-8">
+    <title>Unión de Colectividades</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- mobile specific metas
+    ================================================== -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- CSS
+    ================================================== -->
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'css/vendor.css' %}">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+
+    <!-- script
+    ================================================== -->
+    <script src="{% static 'js/modernizr.js' %}"></script>
+
+    <!-- favicons
+    ================================================== -->
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'images/apple-touch-icon.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'images/favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'images/favicon-16x16.png' %}">
+    <link rel="manifest" href="{% static 'site.webmanifest' %}">
+
+</head>
+
+<body>
+
+    <!-- preloader
+    ================================================== -->
+    <div id="preloader">
+        <div id="loader" class="dots-fade">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+
+    <div id="top" class="s-wrap site-wrapper">
+
+        <!-- site header
+        ================================================== -->
+        <header class="s-header">
+
+            <div class="header__top">
+                <div class="header__logo">
+                    <a class="site-logo" href="{% url 'path_home' %}">
+                        <img src="{% static 'images/logouniconcolectividades.png' %}" alt="Homepage">
+                    </a>
+                </div>
+
+                <div class="header__search">
+    
+                    <form role="search" method="get" class="header__search-form" action="#">
+                        <label>
+                            <span class="hide-content">Buscar:</span>
+                            <input type="search" class="header__search-field" placeholder="Escribí una palabra" value="" name="s" title="Search for:" autocomplete="off">
+                        </label>
+                        <input type="submit" class="header__search-submit" value="Search">
+                    </form>
+        
+                    <a href="#0" title="Close Search" class="header__search-close">Close</a>
+        
+                </div>  <!-- end header__search -->
+
+                <!-- toggles -->
+                <a href="#0" class="header__search-trigger"></a>
+                <a href="#0" class="header__menu-toggle"><span>Menu</span></a>
+
+            </div> <!-- end header__top -->
+
+            <nav class="header__nav-wrap">
+
+                <ul class="header__nav">
+                    <li class="current"><a href="{% url 'path_home' %}" title="">Inicio</a></li>
+                    <li class="has-children">
+                        <a href="#0" title="">Cultura</a>
+                        <ul class="sub-menu">
+                        <li><a href="category.html">Música</a></li>
+                        <li><a href="category.html">Comida</a></li>
+                        <li><a href="category.html">Idioma</a></li>
+                        <li><a href="category.html">Historia</a></li>
+                        <li><a href="category.html">Ropa Típica</a></li>
+                        <li><a href="category.html">Algo más</a></li>
+                        </ul>
+                    </li>
+                    <li class="has-children">
+                        <a href="#0" title="">Eventos</a>
+                        <ul class="sub-menu">
+                        <li><a href="single-video.html">Video Post</a></li>
+                        <li><a href="single-audio.html">Audio Post</a></li>
+                        <li><a href="single-gallery.html">Gallery Post</a></li>
+                        <li><a href="single-standard.html">Standard Post</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="page-about.html" title="">Sobre Nosotros</a></li>
+                    <li><a href="page-contact.html" title="">Contacto</a></li>
+                    <li><a href="styles.html" title="">Iniciar Sesión?</a></li>
+                </ul> <!-- end header__nav -->
+
+                <ul class="header__social">
+                    <li class="ss-facebook">
+                        <a href="https://facebook.com/">
+                            <span class="screen-reader-text">Facebook</span>
+                        </a>
+                    </li>
+                    <li class="ss-twitter">
+                        <a href="#0">
+                            <span class="screen-reader-text">Twitter</span>
+                        </a>
+                    </li>
+                    <li class="ss-dribbble">
+                        <a href="#0">
+                            <span class="screen-reader-text">Dribbble</span>
+                        </a>
+                    </li>
+                    <li class="ss-pinterest">
+                        <a href="#0">
+                            <span class="screen-reader-text">Behance</span>
+                        </a>
+                    </li>
+                </ul>
+
+            </nav> <!-- end header__nav-wrap -->
+
+            
+
+        </header> <!-- end s-header -->
+
+                                        <!-- ************ inicio articulos ************  -->
+        <div class="s-content"> 
+
+            <header class="listing-header">
+                <h1 class="h2">Cultura</h1>
+            </header>
+            
+            <div class="masonry-wrap">
+
+                <div class="masonry">
+
+                    <div class="grid-sizer"></div>
+                    
+                    {% for articulo in page_obj.object_list %} 
+
+                    <article class="masonry__brick entry format-standard animate-this">
+                            
+                        <div class="entry__thumb">
+                            <a href="{% url 'articulos:path_detalle_articulo' articulo.slug %}" class="entry__thumb-link">
+                                <img src="{{ articulo.imagen.url }}" 
+                                        srcset="{{ articulo.imagen.url }}" alt="{{ articulo.titulo }}">
+                            </a>
+                        </div>
+                           
+                        <div class="entry__text">
+                            <div class="entry__header">
+    
+                                <h2 class="entry__title"><a href="{% url 'articulos:path_detalle_articulo' articulo.slug %}">{{ articulo.titulo }}</a></h2>
+                                <div class="entry__meta">
+                                    <span class="entry__meta-cat">
+                                        <a href="{% url 'articulos:path_lista_articulos' %}">Cultura</a> 
+                                        {% if articulo.categoria %}
+                                        <a href="{% url 'articulos:path_detalle_articulo' articulo.slug %}">{{ articulo.categoria.nombre }}</a>
+                                        {% endif %}
+                                    </span>
+                                    <span class="entry__meta-date">
+                                        <a href="{% url 'articulos:path_detalle_articulo' articulo.slug %}">{{ articulo.creado|date:"d M Y"}}</a>
+                                    </span>
+                                <!-- {# REVOSAR ESTO PORQUE NO ESTABA EN EL TEMPLATE 
+                                        Autor del artículo #} 
+                                    <span class="entry__meta-author">
+                                        Por <a href="{#% url 'path_perfil_autor' articulo.autor.username %}">{#{# articulo.autor.get_full_name|default:articulo.autor.username }}</a>
+                                    </span> -->
+                                </div>
+                                
+                            </div>
+                            <div class="entry__excerpt">
+                                <p> {{ articulo.descripcion }} </p>
+                                <br>
+                                <a href="{% url 'articulos:path_detalle_articulo' articulo.slug %}" class="btn btn--primary u-fullwidth">Leer más</a>
+                            </div>
+                        </div>
+        
+                    </article> <!-- end article -->
+    
+                    {% endfor %}
+    
+                </div> <!-- end masonry -->
+
+            </div> <!-- end masonry-wrap -->
+
+            <div class="row">
+                <div class="column large-full">
+                    <nav class="pgn">
+                        <ul>
+                            {% if page_obj.has_previous %}    
+                                <li><a class="pgn__prev" href="?page={{ page_obj.previous_page_number }}">Anterior</a></li>
+                            {% else %}
+                                <li><span class="pgn__prev">Anterior</span></li>
+                            {% endif %}
+
+                            {% for i in page_obj.paginator.page_range %}
+                                {% if page_obj.number == i %}
+                                    <li><span class="pgn__num current">{{ i }}</span></li>
+                                {% else %}
+                                    <li><a class="pgn__num" href="?page={{ i }}">{{ i }}</a></li>
+                                {% endif %}
+                            {% endfor %}
+                            
+                             {% if page_obj.has_next %}
+                                <li><a class="pgn__next" href="?page={{ page_obj.next_page_number }}">Siguiente</a></li>
+                            {% else %}
+                                <li><span class="pgn__next">Siguiente</span></li>
+                            {% endif %}
+                                  
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+
+        </div> <!-- end s-content -->
+
+
+
+        <!-- footer
+        ================================================== -->
+        <footer class="s-footer">
+            <div class="row">
+                <div class="column large-full footer__content">
+                    <div class="footer__copyright">
+                        <span>Unión de Colectividades, CHACO - 2025</span> 
+                        <span>Design by <a href="https://www.styleshout.com/">StyleShout</a></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="go-top">
+                <a class="smoothscroll" title="Back to Top" href="#top"></a>
+            </div>
+        </footer>
+
+    </div> <!-- end s-wrap -->
+
+
+    <!-- Java Script
+    ================================================== -->
+    <script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
+    <script src="{% static 'js/plugins.js' %}"></script>
+    <script src="{% static 'js/main.js' %}"></script>
+
+</body>
