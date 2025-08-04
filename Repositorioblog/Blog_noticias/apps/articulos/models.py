@@ -1,7 +1,11 @@
 from django.db import models
 # from django.contrib.auth.models import User # Descomentar cuando tengas el modelo User (después de python manage.py migrate inicial)
 # from categorias.models import Categoria   # Descomentar cuando hayas creado tu app 'categorias' y su modelo Categoria
-
+from django.utils.text import slugify
+from ckeditor.fields import RichTextField
+from ckeditor_uploader.fields import RichTextUploadingField
+from django.urls import reverse
+from categorias.models import Categoria
 # Create your models here.
 
 class Articulo(models.Model):
@@ -20,7 +24,7 @@ class Articulo(models.Model):
 
     descripcion = models.CharField(max_length=300) #resumen para mostrar en el home
 
-    contenido = models.TextField()
+    contenido = RichTextUploadingField()
 
     imagen = models.ImageField(upload_to= 'articulos/', null=False, blank=False,default='articulos/default_img_articulo.jpg')
 
@@ -29,6 +33,10 @@ class Articulo(models.Model):
     visitas = models.IntegerField(default=0)
 
     likes = models.IntegerField(default=0)
+
+    categoria = models.ForeignKey(Categoria, on_delete=models.SET_NULL, null=True, blank=True, related_name='articulos')
+
+
 
     # NUEVO CAMPO DE AUTOR
     # on_delete=models.CASCADE significa que si el usuario se borra, sus artículos también se borrarán.
@@ -40,8 +48,8 @@ class Articulo(models.Model):
     # si quieres que el autor sea obligatorio para todos los futuros artículos.
     #autor = models.ForeignKey(User, on_delete=models.CASCADE, related_name='articulos', null=True, blank=True)
 
-    # Opcional: Si tienes un modelo de Categoría ya definido
-    #categoria = models.ForeignKey('Categoria', on_delete=models.SET_NULL, null=True, blank=True)
+    
+    
 
     
 
@@ -67,10 +75,7 @@ class Articulo(models.Model):
         super().save(*args, **kwargs)
 
 
-def get_absolute_url(self):
-        from django.urls import reverse
-        # Asumiendo que tendrás una URL llamada 'detalle_articulo' en tu app 'articulos'
-        # que espera un slug para identificar el artículo.
-        return reverse('articulos:detalle_articulo', kwargs={'articulo_slug': self.slug})
+    def get_absolute_url(self):
+            return reverse('articulos:path_detalle_articulo', kwargs={'articulo_slug': self.slug})
 
 

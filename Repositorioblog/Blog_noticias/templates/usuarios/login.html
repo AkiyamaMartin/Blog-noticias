@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+                <div class="s-content">
+                    <div class="row">
+                        <div class="column large-6 tab-full">                        
+                            {% if form.non_field_errors %}
+                                <div class="alert-box alert-box--error">
+                                    {% for error in form.non_field_errors %}
+                                        <p>{{ error }}</p>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+
+                            <form method="post" action="{% url 'usuarios:path_login' %}">
+                                {% csrf_token %}
+
+                                <div>
+                                    <label class="ss-customlabel">Usuario:</label>
+                                     <input type="text" class="ss-custominput" name="username" placeholder="Ingresa tu usuario">
+                                    
+                                    {% if form.username.errors %}
+                                        <ul class="errorlist">
+                                            {% for error in form.username.errors %}
+                                                <li>{{ error }}</li>
+                                            {% endfor %}
+                                        </ul>
+                                    {% endif %}
+                                </div>
+
+                                <div>
+                                    <label class="ss-customlabel">Contraseña:</label>
+                                    <input type="password" class="ss-custominput" name="password" placeholder="Ingresa tu contraseña">
+
+                                    {% if form.password.errors %}
+                                        <ul class="errorlist">
+                                            {% for error in form.password.errors %}
+                                                <li>{{ error }}</li>
+                                            {% endfor %}
+                                        </ul>
+                                    {% endif %}
+                                </div>
+                                
+                                <input class="btn--primary full-width" type="submit" value="Iniciar Sesión">
+                            </form>
+                            <p class="mt-3">
+                                ¿Aún no tienes una cuenta? <a href="{% url 'usuarios:path_registro' %}">Registrate aquí</a>.
+                            </p>
+                        </div>
+                    </div>
+                </div> 
+{% endblock content %}

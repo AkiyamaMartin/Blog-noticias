@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+
+        <!-- inicio modulo
+        ================================================== -->
+
+
+        
+    
+
+    <div class="s-content content">
+        <main class="row content__page">
+            <article class="column large-full entry format-standard">
+                <h2>Editar Artículo: {{ articulo.titulo }}</h2>
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+
+                    {{ form.as_p }}
+
+                    <button type="submit" class="btn btn--primary">Guardar cambios</button>
+                    <a href="{% url 'articulos:path_detalle_articulo' articulo_slug=articulo.slug %}" class="btn btn--secondary">Cancelar</a>
+                </form>
+            </article>
+        </main>
+    </div>
+
+
+
+
+
+{% endblock content %}

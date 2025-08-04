@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+from django.urls import reverse_lazy
 import sys, os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -29,6 +30,9 @@ SECRET_KEY = 'django-insecure-7c)zyqkoec8_832sgmdc1db^-sh4@hwgjt#7fn_x9mwn_8pr4o
 
 ALLOWED_HOSTS = []
 
+LOGIN_REDIRECT_URL = reverse_lazy('path_home')
+LOGOUT_REDIRECT_URL = reverse_lazy('path_home')
+LOGIN_URL = reverse_lazy('usuarios:path_login')
 
 # Application definition
 
@@ -40,6 +44,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'apps.articulos',
+    'ckeditor',
+    'ckeditor_uploader',
+    'apps.categorias',
+    'apps.comentarios',
+    'apps.usuarios',
 ]
 
 MIDDLEWARE = [
@@ -64,6 +73,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'articulos.context_processors.categorias', 
             ],
         },
     },
@@ -122,8 +132,22 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-
+CKEDITOR_UPLOAD_PATH = 'uploads/ckeditor/'
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
+
+
+
+
+
+
+
+
+
+
+
+
+
+
  
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

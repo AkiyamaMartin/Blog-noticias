@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+                    
+
+        <div class="s-content content">
+            <main class="row s-styles">
+                <section id="styles" class="column large-full">
+                    
+                    
+                    <div class="row">
+                        <div class="row section-intro add-bottom">
+                        <div class="column large-full">
+                            <h2 class="display-2">Registro de Usuarios</h2>
+                            <p>Crea una cuenta para poder comentar en nuestros artículos.</p>
+                        </div>
+                    </div>
+                        <div class="column large-6 tab-full">
+                            <h3>Formulario de Registro</h3>
+                            <form method="post" action="{% url 'usuarios:path_registro' %}" enctype="multipart/form-data">
+                                {% csrf_token %}
+
+                                {% if form.non_field_errors %}
+                                    <div class="alert-box alert-box--error">
+                                        {% for error in form.non_field_errors %}
+                                            <p>{{ error }}</p>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+
+                                <div>
+                                    <label class="ss-customlabel">Usuario:</label>
+                                    <input type="text" name="username" class="ss-custominput" placeholder="Ingresa tu usuario">
+                                    {% if form.username.errors %}
+                                        <ul class="errorlist">
+                                            {% for error in form.username.errors %}
+                                                <li>{{ error }}</li>
+                                            {% endfor %}
+                                        </ul>
+                                    {% endif %}
+                                </div>
+
+                                <div>
+                                    <label class="ss-customlabel">Email:</label>
+                                    <input type="email" name="email" class="ss-custominput"  placeholder="Ingresa tu email, ej. 'ejemplo@mail.com'">
+                                    {% if form.email.errors %}
+                                        <ul class="errorlist">
+                                            {% for error in form.email.errors %}
+                                                <li>{{ error }}</li>
+                                            {% endfor %}
+                                        </ul>
+                                    {% endif %}
+                                </div>
+
+                                <div>
+                                    <label class="ss-customlabel">Contraseña:</label>
+                                    <input type="password" class="ss-custominput" name="password1" placeholder="Ingresa tu contraseña">
+
+                                    {% if form.password.errors %}
+                                        <ul class="errorlist">
+                                            {% for error in form.password.errors %}
+                                                <li>{{ error }}</li>
+                                            {% endfor %}
+                                        </ul>
+                                    {% endif %}
+                                </div>
+
+                                <div>
+                                    <label class="ss-customlabel">Confirmar contraseña:</label>
+                                    <input type="password" class="ss-custominput" name="password2" placeholder="Volvé a ingresar tu contraseña">
+
+                                    {% if form.password.errors %}
+                                        <ul class="errorlist">
+                                            {% for error in form.password.errors %}
+                                                <li>{{ error }}</li>
+                                            {% endfor %}
+                                        </ul>
+                                    {% endif %}
+                                </div>
+
+                                
+
+                                <input class="btn--primary full-width" type="submit" value="Registrarse">
+                            </form>
+                            <p class="mt-3">
+                                ¿Ya tienes una cuenta? <a href="{% url 'usuarios:path_login' %}">Inicia sesión aquí</a>.
+                            </p>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+        
+{% endblock content %}
