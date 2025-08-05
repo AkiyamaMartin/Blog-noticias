@@ -95,7 +95,7 @@
                             <li><a href="single-standard.html">Standard Post</a></li>
                         </ul>
                     </li>
-                    <li><a href="page-about.html" title="">Sobre Nosotros</a></li>
+                    <li><a href="{% url 'nosotros:path_nosotros_main' %}" title="">Sobre Nosotros</a></li>
                     <li><a href="page-contact.html" title="">Contacto</a></li>
                 </ul> <!-- end header__nav -->
 
@@ -110,6 +110,7 @@
                         </li>
                     {% else %}
                         <li><a href="{% url 'usuarios:path_login' %}" title="">Iniciar Sesión</a></li>
+                        <li><a href="{% url 'usuarios:path_registro' %}" title="">Registrarse</a></li>
                     {% endif %}
                 </ul>
             </nav> <!-- end header__nav-wrap -->

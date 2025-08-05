@@ -23,6 +23,8 @@ urlpatterns = [
     
     path('usuarios/', include('usuarios.urls')),
 
+    path('nosotros/', include('nosotros.urls')),
+
 
 
 ]

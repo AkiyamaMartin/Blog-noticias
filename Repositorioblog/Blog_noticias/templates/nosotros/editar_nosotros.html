@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+
+        <!-- inicio modulo
+        ================================================== -->
+
+    <div class="s-content content">
+        <main class="row content__page">
+            <article class="column large-full entry format-standard">
+                <h2>Editar Sobre Nosotros: {{ nosostros.titulo }}</h2>
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+
+                    {{ form.as_p }}
+
+                    <button type="submit" class="btn btn--primary">Guardar cambios</button>
+                    <a href="{% url 'nosotros:path_detalle_nosotros' nosotros_slug=nosotros.slug %}" class="btn btn--secondary">Cancelar</a>
+                </form>
+            </article>
+        </main>
+    </div>
+
+    
+
+    {{form.media}}
+
+
+{% endblock content %}

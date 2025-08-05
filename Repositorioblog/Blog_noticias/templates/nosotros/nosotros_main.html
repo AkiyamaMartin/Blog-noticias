@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+    <div class="s-content content">
+        <main class="row content__page">
+            
+            {% if about_principal %}
+                <article class="column large-full entry format-standard">
+                    <div class="media-wrap entry__media">
+                        <div class="entry__post-thumb">
+                            <img src="{{ about_principal.imagen.url }}" alt="{{ about_principal.titulo }}">
+                        </div>
+                    </div>
+
+                    <div class="content__page-header entry__header">
+                        <h1 class="display-1 entry__title">
+                            {{ about_principal.titulo }}
+                        </h1>
+                        {% if user.is_staff %}  
+                            <ul class="entry__header-meta">
+                                <li>
+                                    <a href="{% url 'nosotros:path_editar_nosotros' nosotros_slug=about_principal.slug %}" class="btn full-width">Editar</a>
+                                </li>
+                                
+                            </ul>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="entry__content">
+                        <p class="lead drop-cap">
+                            {{ about_principal.contenido|safe }}
+                        </p>
+                    </div>
+                </article>
+            {% endif %} 
+        </main>
+            <hr>
+            <div class="masonry-wrap">
+                <div class="masonry">
+                    <div class="grid-sizer"></div>
+                    
+                    {% for nosotros in colectividades %} 
+                    <article class="masonry__brick entry format-standard animate-this">
+                        <div class="entry__thumb">
+                            <a href="{% url 'nosotros:path_detalle_nosotros' nosotros_slug=nosotros.slug %}" class="entry__thumb-link">
+                                <img src="{{ nosotros.imagen.url }}"  alt="{{ nosotros.titulo }}">
+                            </a>
+                        </div>
+                        
+                        <div class="entry__text">
+                            <div class="entry__header">
+                                <h2 class="entry__title"><a href="{% url 'nosotros:path_detalle_nosotros' nosotros_slug=nosotros.slug %}">{{ nosotros.titulo }}</a></h2>
+                            </div>
+                            <br>
+                            <div class="entry__excerpt">
+                                <a href="{% url 'nosotros:path_detalle_nosotros' nosotros_slug=nosotros.slug %}" class="btn btn--primary u-fullwidth">Conocer más</a>
+                            </div>
+                        </div>
+                    </article>
+                {% empty %}
+                    <p>No hay colectividades disponibles.</p>
+                {% endfor %}
+                </div>        
+            </div>
+
+
+
+{% endblock content %}

@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+
+        <!-- inicio modulo
+        ================================================== -->
+
+
+    <div class="s-content content">
+        <main class="row content__page">
+            <article class="column large-full entry format-standard">
+                <h2>Eliminar Sobre Nosotros</h2>
+
+                <p>¿Estás seguro que deseas eliminar este segmento:</p>
+                <p><strong>"{{ object.titulo }}"</strong>?</p>
+                
+                <p>Esta acción es <strong style="color: rgb(236, 56, 56);">irreversible</strong>.</p>
+
+                <form method="post">
+                    {% csrf_token %}
+                    
+
+                    <button type="submit" class="btn btn--primary" >ELIMINAR</button>
+                            
+                    <a href="{% url 'nosotros:path_detalle_nosotros' nosotros_slug=nosotros.slug %}" class="btn btn--secondary">CANCELAR</a>
+                </form>
+            </article>
+        </main>
+    </div>
+
+
+{% endblock content %}

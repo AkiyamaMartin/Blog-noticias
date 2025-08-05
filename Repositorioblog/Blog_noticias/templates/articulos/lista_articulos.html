@@ -65,11 +65,7 @@
                             <span class="entry__meta-date">
                                 <a href="{% url 'articulos:path_detalle_articulo' articulo.slug %}">{{ articulo.creado|date:"d M Y"}}</a>
                             </span>
-                        <!-- {# REVOSAR ESTO PORQUE NO ESTABA EN EL TEMPLATE 
-                                Autor del artículo #} 
-                            <span class="entry__meta-author">
-                                Por <a href="{#% url 'path_perfil_autor' articulo.autor.username %}">{#{# articulo.autor.get_full_name|default:articulo.autor.username }}</a>
-                            </span> -->
+                        
                         </div>
                         
                     </div>

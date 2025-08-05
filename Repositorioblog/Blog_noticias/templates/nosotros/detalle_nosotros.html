@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+        <!-- inicio modulo
+        ================================================== -->
+
+    <div class="s-content content">
+            <main class="row content__page">
+                <article class="column large-full entry format-standard">
+
+                    <div class="media-wrap entry__media">
+                        <div class="entry__post-thumb">
+                            <img src="{{ nosotros.imagen.url }}" alt="{{ nosotros.titulo }}">
+                        </div>
+                    </div>
+
+                    <div class="content__page-header entry__header">
+                        <h1 class="display-1 entry__title">
+                            {{ nosotros.titulo }}
+                        </h1>
+                        
+                        {% if user.is_staff %}
+                        <ul class="entry__header-meta">
+                            <li>
+                                <a href="{% url 'nosotros:path_editar_nosotros' nosotros_slug=nosotros.slug %}" class="btn full-width">Editar</a>
+                            </li>
+                            <li>
+                                <a href="{% url 'nosotros:path_borrar_nosotros' nosotros_slug=nosotros.slug %}" class="btn btn--primary full-width">Eliminar</a>
+                            </li>
+                        </ul>
+                        {% endif %}
+                    </div>
+
+                    <div class="entry__content">
+                        <p class="lead drop-cap">
+                            {{ nosotros.contenido|safe }}
+                        </p>
+                    </div>
+
+                </article>
+            </main>
+        </div>
+
+
+
+{% endblock content %}
