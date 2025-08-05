@@ -15,13 +15,19 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 
 
 
-def lista_articulos(request, categoria_slug=None): #puede tener o no una categoria articulos/cat 
+def lista_articulos(request, categoria_slug=None, colectividad_slug=None): #puede tener o no una categoria articulos/cat 
     todos_los_articulos = Articulo.objects.all().order_by('-creado') # *** nuevos primero
 
     categoria_actual = None
     if categoria_slug: #si categoriaslug tiene un valor,  
         categoria_actual = get_object_or_404(Categoria, slug=categoria_slug) #busca cat o da error404
         todos_los_articulos = todos_los_articulos.filter(categoria=categoria_actual) #filtra todos los art con current cat
+    elif colectividad_slug:
+        colectividad_actual = get_object_or_404(Categoria, slug=colectividad_slug)
+        todos_los_articulos = todos_los_articulos.filter(colectividad=colectividad_actual)
+
+    
+
 
     ordenar_por = request.GET.get('order_by', 'newest')
     if ordenar_por == 'oldest':
@@ -35,14 +41,20 @@ def lista_articulos(request, categoria_slug=None): #puede tener o no una categor
     page_number = request.GET.get('page') #obtiene el numero de pag de la url y si no hay es la primera
     page_obj = paginator.get_page(page_number) #Obtenemos el objeto Page (una parte de la lista de art para la página actual)
 
+   
+
     
     contexto = {
         'page_obj': page_obj,
         'categoria_actual': categoria_actual,
         'ordenar_por': ordenar_por, 
+        'colectividad_actual': categoria_actual,
+        
     }
 
     return render(request, 'articulos/lista_articulos.html', contexto)
+
+
 
 
 def detalle_articulo(request, articulo_slug):

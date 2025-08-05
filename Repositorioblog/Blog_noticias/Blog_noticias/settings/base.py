@@ -136,18 +136,23 @@ CKEDITOR_UPLOAD_PATH = 'uploads/ckeditor/'
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': 'Custom',
+        'toolbar_Custom': [
+            ['Bold', 'Italic', 'Underline'],
+            ['Format'],
+            ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent'],
+            ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
+            ['Link', 'Unlink'],
+            ['RemoveFormat', 'Source'],
+            # Agrega 'Iframe' a esta línea
+            ['Image', 'Media', 'Iframe', 'Flash', 'Table', 'HorizontalRule'],
+        ],
+        'width': '100%',
+        'extraPlugins': 'codesnippet',
+    }
+}
 
 
-
-
-
-
-
-
-
-
-
-
-
- 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

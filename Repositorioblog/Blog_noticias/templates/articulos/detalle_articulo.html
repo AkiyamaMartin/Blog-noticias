@@ -12,7 +12,7 @@
 
                 <div class="media-wrap entry__media">
                     <div class="entry__post-thumb">
-                        {# Imagen principal del artículo  misma que home#}
+                        <!--Imagen principal del artículo  misma que home -->
                         <img src="{{ articulo.imagen.url }}" alt="{{ articulo.titulo }}">
                     </div>
                 </div>
@@ -23,9 +23,17 @@
                         {{ articulo.titulo }}
                     </h1>
                     <ul class="entry__header-meta">
-                        {# Autor del artículo - Comentado por ahora #}
-                        {# <li class="author">Por <a href="{% url 'articulos:path_perfil_autor' articulo.autor.username %}">{{ articulo.autor.get_full_name|default:articulo.autor.username }}</a></li> #}
+                        <!-- Autor del artículo - categoria colectividad-->
+                         
+                        <li class="author">
+                            {% if articulo.colectividad %}
+                            Por <a href="{% url 'articulos:path_lista_articulos_colectividad' colectividad_slug=articulo.colectividad.slug %}">{{ articulo.colectividad.nombre }}</a></li>
+                            {% endif %}
+                        {% if user.is_staff %}
+
+                        <li class="author">Autor {{ articulo.autor.username }}</li>
                         
+                        {% endif %}
                         
                         <li class="date">{{ articulo.creado|date:"d M Y" }}</li>
                         
@@ -33,7 +41,7 @@
                         <li class="cat-links">
                             <a href="{% url 'articulos:path_lista_articulos' %}">Cultura</a>
                             {% if articulo.categoria %}
-                                <a href="#0">{{ articulo.categoria.nombre }}</a> 
+                                <a href="{% url 'articulos:path_lista_articulos_categoria' categoria_slug=articulo.categoria.slug %}">{{ articulo.categoria.nombre }}</a> 
                             {% endif %}
                         </li>
                     </ul>

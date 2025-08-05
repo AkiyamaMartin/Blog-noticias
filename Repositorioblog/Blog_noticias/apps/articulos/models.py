@@ -6,6 +6,7 @@ from ckeditor.fields import RichTextField
 from ckeditor_uploader.fields import RichTextUploadingField
 from django.urls import reverse
 from categorias.models import Categoria
+from django.contrib.auth.models import User
 # Create your models here.
 
 class Articulo(models.Model):
@@ -18,14 +19,14 @@ class Articulo(models.Model):
     slug = models.SlugField(max_length=150, unique=True, blank=True, help_text="Slug para la URL del artículo, se genera automáticamente.")
     #https://docs.djangoproject.com/en/5.0/ref/urls/#path-converters
     
-    autor = models.CharField(max_length=30)
-    #autor = models.ForeignKey(User, on_delete=models.CASCADE, related_name='articulos_creados') 
+    colectividad = models.ForeignKey(Categoria, on_delete=models.SET_NULL, null=True, blank=True, related_name='colectividad')
     
+    autor = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='articulos_creados')
 
     descripcion = models.CharField(max_length=300) #resumen para mostrar en el home
 
     contenido = RichTextUploadingField()
-
+    
     imagen = models.ImageField(upload_to= 'articulos/', null=False, blank=False,default='articulos/default_img_articulo.jpg')
 
     comentarios_habilitados = models.BooleanField(default=True)
@@ -35,27 +36,13 @@ class Articulo(models.Model):
     likes = models.IntegerField(default=0)
 
     categoria = models.ForeignKey(Categoria, on_delete=models.SET_NULL, null=True, blank=True, related_name='articulos')
-
-
-
-    # NUEVO CAMPO DE AUTOR
-    # on_delete=models.CASCADE significa que si el usuario se borra, sus artículos también se borrarán.
-    # related_name='articulos' permite acceder a los artículos de un usuario: usuario.articulos.all()
-
-
-    #Los puse así inicialmente para que puedas realizar la migración sin problemas si ya tienes artículos creados. 
-    # Una vez que hayas asignado autores a tus artículos existentes, podrías considerar cambiarlos a null=False, blank=False 
-    # si quieres que el autor sea obligatorio para todos los futuros artículos.
-    #autor = models.ForeignKey(User, on_delete=models.CASCADE, related_name='articulos', null=True, blank=True)
-
-    
-    
+ 
 
     
 
     class Meta:
         ordering = ['-creado'] # Ordena MAS nuevo primero
-        verbose_name_plural = "Artículos" # para que se vea mejor en eo panel admin, sino adivina el plural
+        
 
     def __str__(self):
         return self.titulo

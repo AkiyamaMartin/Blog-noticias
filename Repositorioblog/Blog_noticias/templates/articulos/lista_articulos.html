@@ -8,10 +8,13 @@
 
     <header class="listing-header">
         {% if categoria_actual %}
-            <h1 class="h2">{{ categoria_actual.nombre }}</h1> <!-- nombre de la cat cuando se filtra -->
+            <h1 class="h2">{{ categoria_actual.nombre }}<!-- nombre de la cat cuando se filtra -->
+        {% elif colectividad_actual %}
+            {{ colectividad_actual.nombre }}
         {% else %}
-            <h1 class="h2">Cultura</h1> 
+            Cultura
         {% endif %}
+            
             <form method="GET" action=""> 
                 {% if request.GET.page %}  <!-- para mantener la pagina -->
                     <input type="hidden" name="page" value="{{ request.GET.page }}">
