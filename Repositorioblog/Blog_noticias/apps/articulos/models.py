@@ -1,6 +1,4 @@
 from django.db import models
-# from django.contrib.auth.models import User # Descomentar cuando tengas el modelo User (después de python manage.py migrate inicial)
-# from categorias.models import Categoria   # Descomentar cuando hayas creado tu app 'categorias' y su modelo Categoria
 from django.utils.text import slugify
 from ckeditor.fields import RichTextField
 from ckeditor_uploader.fields import RichTextUploadingField

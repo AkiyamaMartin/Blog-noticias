@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="s-content content">
+        <main class="row content__page">
+            <article class="column large-full entry format-standard">
+                
+                {% if contacto_principal %}
+                    <div class="media-wrap">
+                        <div>
+                            <img src="{{ contacto_principal.imagen.url }}" alt="{{ contacto_principal.titulo }}">
+                        </div>
+                    </div>
+
+                    <div class="content__page-header">
+                        <h1 class="display-1">
+                            {{ contacto_principal.titulo }}
+                        </h1>
+                    </div>
+
+                    <p class="lead drop-cap">
+                        {{ contacto_principal.contenido|safe }}
+                    </p>
+
+                    <div class="row">
+                        <div class="column large-six tab-full">
+                            <h4>Dónde encontrarnos</h4>
+                            <p>
+                                {{ contacto_principal.direccion|linebreaksbr }}
+                            </p>
+                        </div>
+
+                        <div class="column large-six tab-full">
+                            <h4>Información de contacto</h4>
+                            <p>
+                                {{ contacto_principal.email_1 }}
+                                <br>
+                                {% if contacto_principal.email_2 %}
+                                    {{ contacto_principal.email_2 }} 
+                                <br>
+                                {% endif %}
+                                Teléfono: {{ contacto_principal.telefono }}
+                            </p>
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="content__page-header">
+                        <h1 class="display-1">
+                            Página de contacto
+                        </h1>
+                    </div>
+                    <p>
+                        Aún no hay información de contacto disponible.
+                    </p>
+                {% endif %}
+
+                <h3 class="h2">Escribir un mensaje</h3>
+                    <form name="contactForm" id="contactForm" method="post" action="" autocomplete="off">
+                        {% csrf_token %}
+
+                        <fieldset>
+                            {{ form.as_p }}
+
+                            <input name="submit" id="submit" class="btn btn--primary btn-wide btn--large full-width" value="Enviar Mensaje" type="submit">
+                        </fieldset>
+                    </form>
+
+            </article>
+        </main>
+    </div>
+
+
+
+{% endblock content %}

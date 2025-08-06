@@ -57,6 +57,10 @@
                         <h2 class="entry__title"><a href="{% url 'articulos:path_detalle_articulo' articulo.slug %}">{{ articulo.titulo }}</a></h2>
                         <div class="entry__meta">
                             <span class="entry__meta-cat">
+                                {% if articulo.colectividad %}
+                                Por <a href="{% url 'articulos:path_lista_articulos_colectividad' colectividad_slug=articulo.colectividad.slug %}">{{ articulo.colectividad.nombre }}</a></li>
+                                {% endif %} 
+                                <br>
                                 <a href="{% url 'articulos:path_lista_articulos' %}">Cultura</a> 
                                 {% if articulo.categoria %}
                                 <a href="{% url 'articulos:path_lista_articulos_categoria' categoria_slug=articulo.categoria.slug %}">{{ articulo.categoria.nombre }}</a>

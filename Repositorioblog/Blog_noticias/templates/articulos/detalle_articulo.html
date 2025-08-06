@@ -35,7 +35,7 @@
                         
                         {% endif %}
                         
-                        <li class="date">{{ articulo.creado|date:"d M Y" }}</li>
+                        
                         
                         
                         <li class="cat-links">
@@ -44,6 +44,7 @@
                                 <a href="{% url 'articulos:path_lista_articulos_categoria' categoria_slug=articulo.categoria.slug %}">{{ articulo.categoria.nombre }}</a> 
                             {% endif %}
                         </li>
+                        <li class="date">{{ articulo.creado|date:"d M Y" }}</li>
                     </ul>
                     
                                                     
@@ -75,23 +76,53 @@
                 </div> 
                 <div class="entry__related">
                     <h3 class="h2">Artículos Relacionados</h3>
-
                     <ul class="related">
-                        {# Artículo Relacionado 1 (Estático) #}
-                        <li class="related__item">
-                            <a href="#0" class="related__link"> {# Enlace estático por ahora #}
-                                <img src="https://via.placeholder.com/600x400?text=Articulo+Relacionado+1" alt="Artículo Relacionado 1"> {# Imagen de placeholder #}
-                            </a>
-                            <h5 class="related__post-title">Título de Artículo Relacionado Estático 1.</h5>
-                        </li>
-                        {# Artículo Relacionado 2 (Estático) #}
-                        <li class="related__item">
-                            <a href="#0" class="related__link"> {# Enlace estático por ahora #}
-                                <img src="https://via.placeholder.com/600x400?text=Articulo+Relacionado+2" alt="Artículo Relacionado 2"> {# Imagen de placeholder #}
-                            </a>
-                            <h5 class="related__post-title">Título de Artículo Relacionado Estático 2.</h5>
-                        </li>
                         
+                        {% if articulo_relacionado_colectividad %}
+
+                            <li class="related__item">
+                                <a href="{% url 'articulos:path_detalle_articulo' articulo_slug=articulo_relacionado_colectividad.slug %}" class="related__link">
+                                    <img src="{{ articulo_relacionado_colectividad.imagen.url }}" alt="{{ articulo_relacionado_colectividad.titulo }}">
+                                </a>
+                                <h5 class="related__post-title">{{ articulo_relacionado_colectividad.titulo }}</h5>
+                                <span class="entry__meta-cat">
+                                    {% if articulo_relacionado_colectividad.colectividad %}
+                                        <a href="{% url 'articulos:path_lista_articulos_colectividad' colectividad_slug=articulo_relacionado_colectividad.colectividad.slug %}">
+                                            {{ articulo_relacionado_colectividad.colectividad.nombre }}
+                                        </a>
+                                    {% endif %}
+                                        <a href="{% url 'articulos:path_lista_articulos' %}">Cultura, </a>
+                                    {% if articulo_relacionado_colectividad.categoria %}
+                                        <a href="{% url 'articulos:path_lista_articulos_categoria' categoria_slug=articulo_relacionado_colectividad.categoria.slug %}">
+                                            {{ articulo_relacionado_colectividad.categoria.nombre }}
+                                        </a>
+                                    {% endif %}
+                                </span>
+                            </li>
+                        {% endif %}
+
+                        {% if articulo_relacionado_categoria %}
+                            <li class="related__item">
+                                <a href="{% url 'articulos:path_detalle_articulo' articulo_slug=articulo_relacionado_categoria.slug %}" class="related__link">
+                                    <img src="{{ articulo_relacionado_categoria.imagen.url }}" alt="{{ articulo_relacionado_categoria.titulo }}">
+                                </a>
+                                <h5 class="related__post-title">{{ articulo_relacionado_categoria.titulo }}</h5>
+                                <span class="entry__meta-cat">
+                                    {% if articulo_relacionado_categoria.colectividad %}
+                                        <a href="{% url 'articulos:path_lista_articulos_colectividad' colectividad_slug=articulo_relacionado_categoria.colectividad.slug %}">
+                                            {{ articulo_relacionado_categoria.colectividad.nombre }}
+                                        </a>
+                                    {% endif %}
+                                        <a href="{% url 'articulos:path_lista_articulos' %}">Cultura, </a>
+                                    {% if articulo_relacionado_categoria.categoria %}
+                                        <a href="{% url 'articulos:path_lista_articulos_categoria' categoria_slug=articulo_relacionado_categoria.categoria.slug %}">
+                                            {{ articulo_relacionado_categoria.categoria.nombre }}
+                                        </a>
+                                    {% endif %}
+                                </span>
+                            </li>
+                        {% endif %}
+
                     </ul>
                 </div>
             </article> {# Sección de comentarios #}

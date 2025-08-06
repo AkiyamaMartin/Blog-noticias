@@ -60,6 +60,19 @@ def lista_articulos(request, categoria_slug=None, colectividad_slug=None): #pued
 def detalle_articulo(request, articulo_slug):
     articulo = get_object_or_404(Articulo, slug=articulo_slug)
 
+    articulo_relacionado_colectividad = None
+    if articulo.colectividad:
+        articulo_relacionado_colectividad = Articulo.objects.filter(colectividad=articulo.colectividad).exclude(pk=articulo.pk).first()
+
+    articulo_relacionado_categoria = None
+    if articulo.categoria:
+        articulos_de_la_categoria = Articulo.objects.filter(categoria=articulo.categoria).exclude(pk=articulo.pk)
+        if articulo_relacionado_colectividad:
+            articulos_de_la_categoria = articulos_de_la_categoria.exclude(pk=articulo_relacionado_colectividad.pk)
+
+        articulo_relacionado_categoria = articulos_de_la_categoria.first()
+
+
     comentarios = articulo.comentarios.all()
     form_comentario = ComentarioForm()
 
@@ -69,6 +82,8 @@ def detalle_articulo(request, articulo_slug):
         'articulo': articulo,
         'comentarios':comentarios,
         'form_comentario': form_comentario,
+        'articulo_relacionado_colectividad': articulo_relacionado_colectividad,
+        'articulo_relacionado_categoria': articulo_relacionado_categoria,
     }
 
     return render(request, 'articulos/detalle_articulo.html', contexto)
