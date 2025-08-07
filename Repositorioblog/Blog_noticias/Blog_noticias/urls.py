@@ -27,6 +27,8 @@ urlpatterns = [
 
     path('contacto/', include('contacto.urls')),
 
+    path('agenda/', include('agenda.urls')),
+
 ]
 
 if settings.DEBUG:

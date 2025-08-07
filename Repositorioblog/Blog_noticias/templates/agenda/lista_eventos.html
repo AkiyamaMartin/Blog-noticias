@@ -1,0 +1,137 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+
+
+<!-- ************ inicio eventos ************ -->
+<div class="s-content"> 
+
+    <header class="listing-header">
+        {% if categoria_actual %}
+            <h1 class="h2">{{ categoria_actual.nombre }}</h1>
+        {% elif colectividad_actual %}
+            <h1 class="h2">{{ colectividad_actual.nombre }}</h1>
+        {% else %}
+            <h1 class="h2">Eventos</h1>
+        {% endif %}
+            
+        <form method="GET" action=""> 
+            {% if request.GET.page %}
+                <input type="hidden" name="page" value="{{ request.GET.page }}">
+            {% endif %}
+
+            {% if categoria_actual %}
+                <input type="hidden" name="categoria_slug" value="{{ categoria_actual.slug }}">
+            {% elif colectividad_actual %}
+                <input type="hidden" name="colectividad_slug" value="{{ colectividad_actual.slug }}">
+            {% endif %}
+
+            <div style="display: flex; align-items: center; gap: 20px; margin-top: 20px;">
+                
+                <div class="ss-custom-select" style="margin-top: 20px;">
+                    <label for="order_by_select" class="ss-custom-select-label">Ordenar por:</label>
+                    <select style="max-width:fit-content; min-width:min-content px;" class="ss-custom-select-box" id="order_by_select" name="order_by" onchange="this.form.submit()">
+                        <option value="newest" {% if ordenar_por == 'newest' %}selected{% endif %}>Fecha (Más reciente)</option>
+                        <option value="oldest" {% if ordenar_por == 'oldest' %}selected{% endif %}>Fecha (Más antiguo)</option>
+                    </select>
+                </div>
+
+                <div class="ss-custom-checkbox" style="margin-top: 10px;">
+                    <label for="ver_pasado">
+                        <input type="checkbox" id="ver_pasado" name="ver_pasado" value="true" {% if ver_pasado %}checked{% endif %} onchange="this.form.submit()">
+                        Mostrar eventos pasados
+                    </label>
+                </div>
+
+                
+                
+                
+               
+            </div>
+        </form>
+    </header>
+    
+    <div class="masonry-wrap">
+        <div class="masonry">
+            <div class="grid-sizer"></div>
+            
+            {% for evento in page_obj %}
+            <article class="masonry__brick entry format-standard animate-this">
+                <div class="entry__thumb">
+                    <a href="{% url 'agenda:path_detalle_evento' evento_slug=evento.slug %}" class="entry__thumb-link">
+                        <img src="{{ evento.imagen.url }}" 
+                             srcset="{{ evento.imagen.url }}" alt="{{ evento.titulo }}">
+                    </a>
+                </div>
+                    
+                <div class="entry__text">
+                    <div class="entry__header">
+                        <h2 class="entry__title"><a href="{% url 'agenda:path_detalle_evento' evento_slug=evento.slug %}">{{ evento.titulo }}</a></h2>
+                        <div class="entry__meta">
+                            <span class="entry__meta-cat">
+                                {% if evento.colectividad %}
+                                    Por <a href="{% url 'agenda:path_lista_eventos_colectividad' colectividad_slug=evento.colectividad.slug %}">{{ evento.colectividad.nombre }}</a>
+                                {% endif %} 
+                                <br>
+                                <a href="{% url 'agenda:path_lista_eventos' %}">Eventos</a> 
+                                {% if evento.categoria %}
+                                    <a href="{% url 'agenda:path_lista_eventos_categoria' categoria_slug=evento.categoria.slug %}">{{ evento.categoria.nombre }}</a>
+                                {% endif %}
+                            </span>
+                            <span class="entry__meta-date">
+                                <a href="{% url 'agenda:path_detalle_evento' evento_slug=evento.slug %}">{{ evento.fecha|date:"d M Y" }} {% if evento.hora %}a las {{ evento.hora|time:"H:i" }}{% endif %}</a>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="entry__excerpt">
+                        <p>{{ evento.descripcion }}</p>
+                        <br>
+                        <a href="{% url 'agenda:path_detalle_evento' evento_slug=evento.slug %}" class="btn btn--primary u-fullwidth">Leer más</a>
+                    </div>
+                </div>
+            </article>
+            {% empty %}
+                <p>No hay eventos disponibles en esta categoría.</p>
+            {% endfor %}
+        </div> <!-- end masonry -->
+    </div> <!-- end masonry-wrap -->
+
+    <div class="row">
+        <div class="column large-full">
+            <nav class="pgn">
+                <ul>
+                    {% if page_obj.has_previous %}    
+                        <li><a class="pgn__prev" href="?page={{ page_obj.previous_page_number }}">Anterior</a></li>
+                    {% else %}
+                        <li><span class="pgn__prev">Anterior</span></li>
+                    {% endif %}
+
+                    {% for i in page_obj.paginator.page_range %}
+                        {% if page_obj.number == i %}
+                            <li><span class="pgn__num current">{{ i }}</span></li>
+                        {% else %}
+                            <li><a class="pgn__num" href="?page={{ i }}">{{ i }}</a></li>
+                        {% endif %}
+                    {% endfor %}
+                    
+                    {% if page_obj.has_next %}
+                        <li><a class="pgn__next" href="?page={{ page_obj.next_page_number }}">Siguiente</a></li>
+                    {% else %}
+                        <li><span class="pgn__next">Siguiente</span></li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+    </div>
+
+</div> <!-- end s-content -->
+
+
+
+
+{% endblock content %}
+
+
+

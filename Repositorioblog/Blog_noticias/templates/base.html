@@ -76,6 +76,11 @@
                     <li class="has-children">
                         <a href="{% url 'articulos:path_lista_articulos' %}" title="">Cultura</a>
                         <ul class="sub-menu">
+                            {% if user.is_staff %}
+                            <li><a href="{% url 'articulos:path_crear_articulo' %}">Crear Artículo</a></li>
+
+                            {% endif %}
+
                             <li><a href="{% url 'articulos:path_lista_articulos' %}">Ver todos</a></li>
                             {% for cat in categorias_cultura %}
                                 <li>
@@ -87,12 +92,23 @@
                         </ul>
                     </li>
                     <li class="has-children">
-                        <a href="#0" title="">Eventos</a>
+                        <a href="{% url 'agenda:path_lista_eventos' %}" title="">Eventos</a>
                         <ul class="sub-menu">
-                            <li><a href="single-video.html">Video Post</a></li>
-                            <li><a href="single-audio.html">Audio Post</a></li>
-                            <li><a href="single-gallery.html">Gallery Post</a></li>
-                            <li><a href="single-standard.html">Standard Post</a></li>
+
+                            {% if user.is_staff %}
+                            <li><a href="{% url 'agenda:path_crear_evento' %}">Crear Evento</a></li>
+
+                            {% endif %}
+                            <li><a href="{% url 'agenda:path_lista_eventos' %}">Ver todos</a></li>
+
+                            {% for cat in categorias_eventos %}
+                                <li>
+                                    <a href="{% url 'agenda:path_lista_eventos_categoria' categoria_slug=cat.slug %}">
+                                        {{ cat.nombre }}
+                                    </a>
+                                </li>
+                            {% endfor %}
+
                         </ul>
                     </li>
                     <li><a href="{% url 'nosotros:path_nosotros_main' %}" title="">Sobre Nosotros</a></li>

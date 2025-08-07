@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+
+        <!-- inicio modulo
+        ================================================== -->
+
+
+
+<div class="s-content content">
+    <main class="row content__page">
+        <article class="column large-full entry format-standard">
+            <h2>Eliminar Evento</h2>
+
+            <p>¿Estás seguro que deseas eliminar el evento:</p>
+            <p><strong>"{{ object.titulo }}"</strong>?</p>
+            
+            <p>Esta acción es <strong style="color: rgb(236, 56, 56);">irreversible</strong>.</p>
+
+            <form method="post">
+                {% csrf_token %}
+                
+
+                <button type="submit" class="btn btn--primary" >ELIMINAR</button>
+                        
+                <a href="{% url 'agenda:path_detalle_evento' evento_slug=evento.slug %}" class="btn btn--secondary">Cancelar</a>                
+            </form>
+        </article>
+    </main>
+</div>
+
+
+{% endblock content %}
