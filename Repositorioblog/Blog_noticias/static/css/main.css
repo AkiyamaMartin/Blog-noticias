@@ -3817,3 +3817,16 @@ body.search-is-visible {
 .entry__map h3 {
     margin-bottom: 20px;
 }
+
+
+.entry__header-meta .asistencias {
+    font-weight: bold;
+    color: #333;
+}
+.entry__header-meta form {
+    display: inline-block;
+}
+
+.asistencias{
+  list-style: none;
+}

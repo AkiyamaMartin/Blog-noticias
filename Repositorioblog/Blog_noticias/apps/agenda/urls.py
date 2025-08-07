@@ -18,6 +18,6 @@ urlpatterns = [
     
     path('<slug:evento_slug>/borrar/', views.BorrarEvento.as_view(), name='path_borrar_evento'),
 
-
+    path('<slug:evento_slug>/asistir/', views.AsistirEvento.as_view(), name='path_asistir_evento'),
 
 ]

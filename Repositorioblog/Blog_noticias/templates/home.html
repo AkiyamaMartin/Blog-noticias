@@ -1,123 +1,127 @@
-
 {% extends 'base.html' %}
 {% load static %}
 
 {% block content %}
 
-    <div class="s-content"> 
+<!-- inicio modulo
+================================================== -->
 
+<div class="s-content">
+
+    <!-- Sección de Artículos -->
     <header class="listing-header">
-        {% if categoria_actual %}
-            <h1 class="h2">{{ categoria_actual.nombre }}<!-- nombre de la cat cuando se filtra -->
-        {% elif colectividad_actual %}
-            {{ colectividad_actual.nombre }}
-        {% else %}
-            Cultura
-        {% endif %}
-            
-            <form method="GET" action=""> 
-                {% if request.GET.page %}  <!-- para mantener la pagina -->
-                    <input type="hidden" name="page" value="{{ request.GET.page }}">
-                {% endif %}
-
-                    {% if current_category %} <!-- para mantener la categoria -->
-                    <input type="hidden" name="categoria_slug" value="{{ current_category.slug }}">
-                {% endif %}
-
-                <div class="ss-custom-select" style="margin-top: 20px;">
-                    <label for="order_by_select" class="ss-custom-select-label" >Ordenar por:</label>
-                    <select style="max-width:fit-content; min-width:min-content px;" class="ss-custom-select-box" id="order_by_select" name="order_by" onchange="this.form.submit()" style="margin: top -30px;">
-                        <option value="newest" {% if ordenar_por == 'newest' %}selected{% endif %}>Fecha (Más reciente)</option>
-                        <option value="oldest" {% if ordenar_por == 'oldest' %}selected{% endif %}>Fecha (Más antiguo)</option>
-                    </select>
-                </div>
-            </form>
+        <h1 class="h2">Últimos Artículos: Cultura</h1>
     </header>
     
     <div class="masonry-wrap">
-
         <div class="masonry">
-
             <div class="grid-sizer"></div>
             
-            {% for articulo in page_obj%} 
-
+            {% for articulo in ultimos_articulos %}
             <article class="masonry__brick entry format-standard animate-this">
-                    
                 <div class="entry__thumb">
-                    <a href="{% url 'articulos:path_detalle_articulo' articulo.slug %}" class="entry__thumb-link">
+                    <a href="{% url 'articulos:path_detalle_articulo' articulo_slug=articulo.slug %}" class="entry__thumb-link">
                         <img src="{{ articulo.imagen.url }}" 
-                                srcset="{{ articulo.imagen.url }}" alt="{{ articulo.titulo }}">
+                             srcset="{{ articulo.imagen.url }}" alt="{{ articulo.titulo }}">
                     </a>
                 </div>
-                    
                 <div class="entry__text">
                     <div class="entry__header">
-
-                        <h2 class="entry__title"><a href="{% url 'articulos:path_detalle_articulo' articulo.slug %}">{{ articulo.titulo }}</a></h2>
+                        <h2 class="entry__title">
+                            <a href="{% url 'articulos:path_detalle_articulo' articulo_slug=articulo.slug %}">{{ articulo.titulo }}</a>
+                        </h2>
                         <div class="entry__meta">
                             <span class="entry__meta-cat">
-                                <a href="{% url 'articulos:path_lista_articulos' %}">Cultura</a> 
+                                {% if articulo.colectividad %}
+                                    Por <a href="{% url 'articulos:path_lista_articulos_colectividad' colectividad_slug=articulo.colectividad.slug %}">{{ articulo.colectividad.nombre }}</a>
+                                {% endif %}
+                                <a href="{% url 'articulos:path_lista_articulos' %}">Cultura</a>
                                 {% if articulo.categoria %}
-                                <a href="{% url 'articulos:path_lista_articulos_categoria' categoria_slug=articulo.categoria.slug %}">{{ articulo.categoria.nombre }}</a>
+                                    <a href="{% url 'articulos:path_lista_articulos_categoria' categoria_slug=articulo.categoria.slug %}">{{ articulo.categoria.nombre }}</a>
                                 {% endif %}
                             </span>
                             <span class="entry__meta-date">
-                                <a href="{% url 'articulos:path_detalle_articulo' articulo.slug %}">{{ articulo.creado|date:"d M Y"}}</a>
+                                {{ articulo.creado|date:"d M Y" }}
                             </span>
-                        
                         </div>
-                        
                     </div>
                     <div class="entry__excerpt">
-                        <p> {{ articulo.descripcion }} </p>
-                        <br>
-                        <a href="{% url 'articulos:path_detalle_articulo' articulo.slug %}" class="btn btn--primary u-fullwidth">Leer más</a>
+                        <p>{{ articulo.descripcion|truncatewords:30 }}</p>
                     </div>
                 </div>
-
-            </article> {% empty %} {# Si page_obj está vacío #}
-                <p>No hay artículos disponibles en esta categoría.</p>
-            
-                            
-                                <!-- end article -->
-
+            </article>
+            {% empty %}
+            <p>No hay artículos disponibles.</p>
             {% endfor %}
-
         </div> <!-- end masonry -->
-
     </div> <!-- end masonry-wrap -->
 
     <div class="row">
         <div class="column large-full">
-            <nav class="pgn">
-                <ul>
-                    {% if page_obj.has_previous %}    
-                        <li><a class="pgn__prev" href="?page={{ page_obj.previous_page_number }}">Anterior</a></li>
-                    {% else %}
-                        <li><span class="pgn__prev">Anterior</span></li>
-                    {% endif %}
+            <div class="entry__more-btn">
+                <a href="{% url 'articulos:path_lista_articulos' %}" class="btn btn--primary">Ver más</a>
+            </div>
+        </div>
+    </div>
+<hr>
+<br>
+    <!-- Sección de Eventos -->
+    <header class="listing-header">
+        <h1 class="h2">Próximos Eventos</h1>
+    </header>
+    
+    <div class="masonry-wrap">
+        <div class="masonry">
+            <div class="grid-sizer"></div>
+            
+            {% for evento in proximos_eventos %}
+            <article class="masonry__brick entry format-standard animate-this">
+                <div class="entry__thumb">
+                    <a href="{% url 'agenda:path_detalle_evento' evento_slug=evento.slug %}" class="entry__thumb-link">
+                        <img src="{{ evento.imagen.url }}" 
+                             srcset="{{ evento.imagen.url }}" alt="{{ evento.titulo }}">
+                    </a>
+                </div>
+                <div class="entry__text">
+                    <div class="entry__header">
+                        <h2 class="entry__title">
+                            <a href="{% url 'agenda:path_detalle_evento' evento_slug=evento.slug %}">{{ evento.titulo }}</a>
+                        </h2>
+                        <div class="entry__meta">
+                            <span class="entry__meta-cat">
+                                {% if evento.colectividad %}
+                                    Por <a href="{% url 'agenda:path_lista_eventos_colectividad' colectividad_slug=evento.colectividad.slug %}">{{ evento.colectividad.nombre }}</a>
+                                {% endif %}
+                                <a href="{% url 'agenda:path_lista_eventos' %}">Eventos</a>
+                                {% if evento.categoria %}
+                                    <a href="{% url 'agenda:path_lista_eventos_categoria' categoria_slug=evento.categoria.slug %}">{{ evento.categoria.nombre }}</a>
+                                {% endif %}
+                            </span>
+                            <span class="entry__meta-date">
+                                {{ evento.fecha|date:"d M Y" }}
+                                {% if evento.hora %} a las {{ evento.hora|time:"H:i" }}{% endif %}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="entry__excerpt">
+                        <p>{{ evento.descripcion|truncatewords:30 }}</p>
+                    </div>
+                </div>
+            </article>
+            {% empty %}
+            <p>No hay eventos próximos disponibles.</p>
+            {% endfor %}
+        </div> <!-- end masonry -->
+    </div> <!-- end masonry-wrap -->
 
-                    {% for i in page_obj.paginator.page_range %}
-                        {% if page_obj.number == i %}
-                            <li><span class="pgn__num current">{{ i }}</span></li>
-                        {% else %}
-                            <li><a class="pgn__num" href="?page={{ i }}">{{ i }}</a></li>
-                        {% endif %}
-                    {% endfor %}
-                    
-                        {% if page_obj.has_next %}
-                        <li><a class="pgn__next" href="?page={{ page_obj.next_page_number }}">Siguiente</a></li>
-                    {% else %}
-                        <li><span class="pgn__next">Siguiente</span></li>
-                    {% endif %}
-                            
-                </ul>
-            </nav>
+    <div class="row">
+        <div class="column large-full">
+            <div class="entry__more-btn">
+                <a href="{% url 'agenda:path_lista_eventos' %}" class="btn btn--primary">Ver más</a>
+            </div>
         </div>
     </div>
 
 </div> <!-- end s-content -->
-    
-{% endblock content %}
 
+{% endblock content %}

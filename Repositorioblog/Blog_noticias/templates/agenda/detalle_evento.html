@@ -72,7 +72,29 @@
                 <p >{{ evento.lugar }}</p>
                     {% endif %}
 
-                           
+                
+                    
+                <p class="asistencias">Asistencias: {{ evento.asistencias }}</p>
+                {% if user.is_authenticated and can_assist %}
+                <form method="post" action="{% url 'agenda:path_asistir_evento' evento_slug=evento.slug %}" style="margin-top: 10px;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn--primary asistencias" {% if user_ya_voto %}disabled{% endif %}>
+                        {% if user_ya_voto %}Ya confirmaste{% else %}Asistir{% endif %}
+                    </button>
+                    
+                </form>
+
+                {% elif user.is_authenticated and not can_assist %}
+                <p>Este evento ya pasó, no puedes confirmar asistencia.</p>
+
+                {% else %}
+                <p>
+                    <a href="{% url 'usuarios:path_login' %}?next={{ request.path }}">Inicia sesión</a> para confirmar asistencia.
+                </p>
+                {% endif %}
+                
+            
+                         
                 
 
                 {% if evento.google_maps_url %}

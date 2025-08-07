@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from django.core.paginator import Paginator
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic.detail import DetailView
+from django.views import View
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.urls import reverse_lazy
 from .models import Evento
@@ -60,6 +61,8 @@ def detalle_evento(request, evento_slug):
 
     contexto = {
         'evento': evento,
+        'user_ya_voto': evento.asistentes.filter(id=request.user.id).exists() if request.user.is_authenticated else False,
+        'can_assist': evento.fecha >= date.today(),
         
     }
 
@@ -98,3 +101,16 @@ class BorrarEvento(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     
     def test_func(self):
         return self.request.user.is_staff
+    
+
+
+    
+
+class AsistirEvento(LoginRequiredMixin, View):
+    def post(self, request, evento_slug):
+        evento = get_object_or_404(Evento, slug=evento_slug)
+        if evento.fecha >= date.today() and not evento.asistentes.filter(id=request.user.id).exists():
+            evento.asistencias += 1
+            evento.asistentes.add(request.user)
+            evento.save()
+        return reverse_lazy('agenda:path_detalle_evento', evento_slug=evento.slug)

@@ -41,6 +41,10 @@ class Evento(models.Model):
     #flyer
     categoria = models.ForeignKey(Categoria, on_delete=models.SET_NULL, null=True, blank=True, related_name='agenda')
 
+    asistencias = models.IntegerField(default=0)  
+
+    asistentes = models.ManyToManyField(User, related_name='evento_asist', blank=True)  
+
     class Meta: 
         ordering = ['-creado']
     
