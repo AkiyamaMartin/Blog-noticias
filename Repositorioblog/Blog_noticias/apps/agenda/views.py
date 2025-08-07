@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.core.paginator import Paginator
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic.detail import DetailView
@@ -113,4 +113,4 @@ class AsistirEvento(LoginRequiredMixin, View):
             evento.asistencias += 1
             evento.asistentes.add(request.user)
             evento.save()
-        return reverse_lazy('agenda:path_detalle_evento', evento_slug=evento.slug)
+        return redirect('agenda:path_detalle_evento', evento_slug=evento.slug)

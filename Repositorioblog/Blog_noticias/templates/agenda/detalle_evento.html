@@ -76,7 +76,7 @@
                     
                 <p class="asistencias">Asistencias: {{ evento.asistencias }}</p>
                 {% if user.is_authenticated and can_assist %}
-                <form method="post" action="{% url 'agenda:path_asistir_evento' evento_slug=evento.slug %}" style="margin-top: 10px;">
+                <form method="POST" action="{% url 'agenda:path_asistir_evento' evento_slug=evento.slug %}" style="margin-top: 10px;">
                     {% csrf_token %}
                     <button type="submit" class="btn btn--primary asistencias" {% if user_ya_voto %}disabled{% endif %}>
                         {% if user_ya_voto %}Ya confirmaste{% else %}Asistir{% endif %}

@@ -18,4 +18,4 @@ class FormularioCrearEvento(forms.ModelForm):
         self.fields['colectividad'].empty_label = "Selecciona una colectividad"
         self.fields['colectividad'].required = False
         
-        self.fields['fecha'].widget.attrs.update({'placeholder': 'DD-MM-AAAA'})
+        self.fields['fecha'].widget.attrs.update({'placeholder': 'DD/MM/AAAA'})
