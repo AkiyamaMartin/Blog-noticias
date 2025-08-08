@@ -6,7 +6,7 @@ class FormularioCrearArticulo(forms.ModelForm):
     
     class Meta:
         model = Articulo
-        fields = ['titulo', 'descripcion', 'contenido', 'imagen', 'categoria', 'colectividad']
+        fields = ['titulo', 'descripcion', 'contenido', 'imagen', 'categoria', 'colectividad', 'youtube_url']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

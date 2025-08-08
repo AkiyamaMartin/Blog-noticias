@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load static youtube_filters %}
 
 {% block content %}
 
@@ -71,6 +72,14 @@
                     <p class="lead drop-cap">
                         {{ articulo.contenido|safe }} <!-- el safe para el richtextfield -->
                     </p>
+
+                    {% if articulo.youtube_url %}
+                        <div class="youtube-video">
+                        <iframe width="560" height="315" src="{{ articulo.youtube_url|youtube_embed_url }}" 
+                                frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                allowfullscreen></iframe>
+                        </div>
+                    {% endif %}
                     
                     
                 </div> 
