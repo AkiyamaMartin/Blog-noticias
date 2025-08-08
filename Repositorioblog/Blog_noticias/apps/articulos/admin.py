@@ -6,7 +6,7 @@ from .models import Articulo
 
 # Personalización del modelo en el admin: 
 class ArticuloAdmin(admin.ModelAdmin):
-    list_display = ('titulo', 'colectividad', 'creado', 'modificado', 'comentarios_habilitados', 'visitas', 'likes')
+    list_display = ('titulo', 'colectividad', 'creado', 'modificado', 'comentarios_habilitados',)
     list_filter = ('creado', 'modificado', 'comentarios_habilitados')
     search_fields = ('titulo', 'contenido', 'descripcion')
     prepopulated_fields = {'slug': ('titulo',)} 

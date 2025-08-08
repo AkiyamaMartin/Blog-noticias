@@ -29,13 +29,10 @@ class Articulo(models.Model):
 
     comentarios_habilitados = models.BooleanField(default=True)
 
-    visitas = models.IntegerField(default=0)
-
-    likes = models.IntegerField(default=0)
-
+    
     categoria = models.ForeignKey(Categoria, on_delete=models.SET_NULL, null=True, blank=True, related_name='articulos')
 
-    youtube_url = models.URLField(blank=True, null=True)
+    
  
 
     
