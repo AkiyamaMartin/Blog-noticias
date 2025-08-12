@@ -18,7 +18,7 @@ def add_comentario(request,  articulo_slug):
             comentario.articulo = articulo
             comentario.autor = request.user
             comentario.save()
-        return redirect('articulos:detalle_articulo', slug=articulo.slug)
+        return redirect('articulos:path_detalle_articulo', articulo_slug=comentario.articulo.slug)
         
 
 

@@ -47,6 +47,8 @@
                     </div>
                     <div class="entry__excerpt">
                         <p>{{ articulo.descripcion|truncatewords:30 }}</p>
+                        <br>
+                        <a href="{% url 'articulos:path_detalle_articulo' articulo.slug %}" class="btn btn--primary u-fullwidth">Leer más</a>
                     </div>
                 </div>
             </article>
